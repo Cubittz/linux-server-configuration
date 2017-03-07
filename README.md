@@ -20,6 +20,15 @@ Create Custom rule in Lightsail firewall to allow TCP on port 2200.
 Run following command to open sshd_config and look for line specifying which ports to list for. Change 22 to 2200
 ```
 $ sudo nano /etc/ssh/sshd_config
+$ sudo service ssh restart
+```
+### Configure Uncomplicated Firewall (ufw)
+Run the following commands to allow correct access through the firewall
+```
+$ sudo ufw allow 2200/tcp
+$ sudo ufw allow http
+$ sudo ufw allow ntp
+$ sudo ufw enable
 ```
 ### Install Finger (optional)
 Install finger to see additional information for users
@@ -55,4 +64,19 @@ $ sudo nano /etc/ssh/sshd_config
 And change ```PasswordAuthentication``` to ```no```. Once changed, run the following command so the server restarts for it to take effect
 ```
 $ sudo service ssh restart
+```
+### Install and configure PostgreSQL
+```
+$ sudo apt-get install postgresql
+
+```
+Switch to postgres user ``` $ sudo -i -u postgres ``` and then create new user ``` $ createuser --interactive ```
+
+Name of user should be ```catalog``` and all permissions set to No.
+
+Move to postgres shell, create new database and assign privileges to catalog user
+``` 
+$ psql
+postgres=# CREATE DATABASE catalog;
+postgres=# GRANT ALL PRIVILEGES ON DATABASE catalog to catalog
 ```
