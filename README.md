@@ -10,14 +10,14 @@ Port: 2200
 
 ### Run updates
 
-```python
+```bash
 $ sudo apt-get update
 $ sudo apt-get upgrade
 ```
 
 ### Install Finger
 Install finger to see additional information for users
-```python
+```bash
 $ sudo apt-get install finger
 ```
 
