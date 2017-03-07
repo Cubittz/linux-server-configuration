@@ -68,7 +68,6 @@ $ sudo service ssh restart
 ### Install and configure PostgreSQL
 ```
 $ sudo apt-get install postgresql
-
 ```
 Switch to postgres user ``` $ sudo -i -u postgres ``` and then create new user ``` $ createuser --interactive ```
 
@@ -78,5 +77,5 @@ Move to postgres shell, create new database and assign privileges to catalog use
 ``` 
 $ psql
 postgres=# CREATE DATABASE catalog;
-postgres=# GRANT ALL PRIVILEGES ON DATABASE catalog to catalog
+postgres=# GRANT ALL PRIVILEGES ON DATABASE catalog to catalog;
 ```
