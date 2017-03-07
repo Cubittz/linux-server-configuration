@@ -15,7 +15,7 @@ $ sudo apt-get update
 $ sudo apt-get upgrade
 ```
 
-### Install Finger
+### Install Finger (optional)
 Install finger to see additional information for users
 ```
 $ sudo apt-get install finger
@@ -40,4 +40,14 @@ When you can log on, modify the permissions
 ```
 chmod 700 .ssh
 chmod 644 .ssh/authorized_keys
+```
+### Force Key Based Authentication
+To ensure users can only log in with a key, run the following command (already configured on Lightsail)
+```
+$ sudo nano /etc/ssh/sshd_config
+```
+And change ```PasswordAuthentication``` to ```no```
+Once changed, run the following command so the server restarts for it to take effect
+```
+sudo service ssh restart
 ```
