@@ -8,6 +8,8 @@ Username: ubuntu
 
 Port: 2200
 
+URL: http://52.91.39.237/
+
 ### Run updates
 
 ```
@@ -78,4 +80,39 @@ Move to postgres shell, create new database and assign privileges to catalog use
 $ psql
 postgres=# CREATE DATABASE catalog;
 postgres=# GRANT ALL PRIVILEGES ON DATABASE catalog to catalog;
+```
+### Clone item-catalogue Repository
+To install the catalog application, you need to install Git, which is already installed on the Lightsail instance - if not then ``` $ sudo apt-get install git ```.
+``` 
+$ cd /var/www
+$ sudo mkdir Catalog
+$ cd Catalog
+$ sudo git clone http://github.com/cubittz/item-catalogue.git Catalog
+```
+### Install Dependencies
+The application imports from the following libraries, which need to be installed (as well as pip for 3rd party libraries)
+```
+$ sudo apt-get install python-pip
+$ sudo apt-get install requests
+$ sudo apt-get -qqy python-psycopg2
+$ sudo pip install flask
+$ sudo pip install sqlalchemy
+$ sudo pip install oauth2client
+```
+### Change sqlite Connection to PostgreSQL
+From /var/www/Catalog/Catalog, run ``` $ sudo nano database_setup.py ``` and ``` $ sudo nano app.py ```. Change the following lines from
+```python
+engine = create_engine('sqlite:///itemcatalogwithusers.db')
+```
+to
+```python
+engine = create_engine('postgresql://catalog:password@localhost/catalog')
+```
+Also add/edit following lines to correctly read from client_secrets.json
+```python
+import os
+path = os.path.dirname(__file__)
+CLIENT_ID = json.loads(open(path+'/client_secrets.json', 'r').read())['web']['client_id']
+```
+
 ```
