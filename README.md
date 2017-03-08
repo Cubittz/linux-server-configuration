@@ -124,4 +124,54 @@ From /var/www/Catalog/Catalog
 $ sudo mv app.py __init__.py
 ```
 ### Configure and Enable Virtual Host
+Create anew Catalog.conf file
+```
+sudo touch /etc/apache2/sites-available/Catalog.conf
+sudo nano /etc/apache2/sites-available/Catalog.conf
+```
+Add the following code to configure the virtual host.
+```xml
+<VirtualHost *:80>
+    ServerName 52.91.39.237
+    ServerAdmin paul.cubitt@gmail.com
+    WSGIScriptAlias / /var/www/Catalog/catalog.wsgi
+    <Directory /var/www/Catalog/Catalog/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    Alias /static /var/www/Catalog/Catalog/static
+    <Directory /var/www/Catalog/Catalog/static/>
+        Order allow,deny
+        Allow from all
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+Run ``` $ sudo a2ensite Catalog ``` to enable the virtual host
+### Create the .wsgi File
+Create the .wsgi file in /var/www/Catalog
+```
+cd /var/www/Catalog
+sudo touch catalog.wsgi 
+sudo nano catalog.wsgi 
+```
+And then add the following lines of code
+```
+#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/Catalog/")
 
+from Catalog import app as application
+application.secret_key = 'Add your secret key'
+```
+### Restart Apache
+```
+$ sudo service apache2 restart
+```
+### With Thanks to 
+Digital Ocean blog post which covered 90% of the required steps to get this working
+<https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps>
