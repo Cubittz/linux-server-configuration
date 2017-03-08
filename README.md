@@ -114,5 +114,14 @@ import os
 path = os.path.dirname(__file__)
 CLIENT_ID = json.loads(open(path+'/client_secrets.json', 'r').read())['web']['client_id']
 ```
-
+Once this has been done, the database can be initialized
 ```
+$ sudo python database_setup.py
+```
+### Rename app.py to __init__.py
+From /var/www/Catalog/Catalog
+```
+$ sudo mv app.py __init__.py
+```
+### Configure and Enable Virtual Host
+
